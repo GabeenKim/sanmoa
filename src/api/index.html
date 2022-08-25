@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>2D 지도생성 2.0</title>
+  </head>
+
+  <body>
+    <div id="map" style="width: 1000px; height: 1000px"></div>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	b3e59c16c89a6346781e1571c2e8d303"
+    ></script>
+
+    <script type="text/javascript">
+      var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+      var options = {
+        //지도를 생성할 때 필요한 기본 옵션
+        center: new kakao.maps.LatLng(37.55338622239456, 126.71254418856337), //지도의 중심좌표.
+        level: 3, //지도의 레벨(확대, 축소 정도)
+      };
+
+      var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+      // 선을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 선을 표시합니다
+      var linePath = [
+        new kakao.maps.LatLng(37.55338622239456, 126.71254418856337),
+        new kakao.maps.LatLng(37.55334221508265, 126.712, 53937246152),
+        new kakao.maps.LatLng(37.553304331275655, 126.71250398267105),
+        new kakao.maps.LatLng(37.553267409050136, 126.7125156802627),
+        new kakao.maps.LatLng(37.55323284417231, 126.71243612802893),
+        new kakao.maps.LatLng(37.55318594752979, 126.71238514086414),
+        new kakao.maps.LatLng(37.55323284417231, 126.71243612802893),
+        new kakao.maps.LatLng(37.55323284417231, 126.71243612802893),
+        new kakao.maps.LatLng(37.55323284417231, 126.71243612802893),
+      ];
+      // 지도에 표시할 선을 생성합니다
+      var polyline = new kakao.maps.Polyline({
+        path: linePath, // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 5, // 선의 두께 입니다
+        strokeColor: '#FFAE00', // 선의 색깔입니다
+        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid', // 선의 스타일입니다
+      });
+
+      // 지도에 선을 표시합니다
+      polyline.setMap(map);
+
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log(
+          position.coords.latitude + ', ' + position.coords.longitude
+        );
+      });
+
+      var watchID = navigator.geolocation.watchPosition(function (position) {
+        run(position.coords.latitude, position.coords.longitude);
+      });
+    </script>
+  </body>
+</html>
