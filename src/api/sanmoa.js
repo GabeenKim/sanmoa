@@ -11,8 +11,8 @@ router.get('/', function (req, res) {
 //등산로 좌표/데이터, 총 경로(m),시점높이?,종점높이, 난이도
 router.get('/route', async (req, res) => {
   var url = 'http://api.vworld.kr/req/data';
-  let mountainNm = req.body.name;
-  let regionCode = req.body.code; //'28245101';
+  let mountainNm = '철마산';
+  let regionCode = '28245101';
   var queryParams =
     '?' +
     encodeURIComponent('key') +
@@ -21,7 +21,7 @@ router.get('/route', async (req, res) => {
     '&' +
     encodeURIComponent('domain') +
     '=' +
-    encodeURIComponent('http://52.79.84.247:4000'); /* */
+    encodeURIComponent('http://localhost:4000'); /* */
   queryParams +=
     '&' +
     encodeURIComponent('service') +
