@@ -21,7 +21,7 @@ router.get('/route', async (req, res) => {
     '&' +
     encodeURIComponent('domain') +
     '=' +
-    encodeURIComponent('http://localhost:4000'); /* */
+    encodeURIComponent('http://52.79.84.247:4000'); /* */
   queryParams +=
     '&' +
     encodeURIComponent('service') +
