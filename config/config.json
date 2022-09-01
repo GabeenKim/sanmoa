@@ -3,7 +3,7 @@
     "username": "sanmoadb",
     "password": "1234",
     "database": "sanmoadb",
-    "host": "15.164.225.225",
+    "host": "3.39.231.220",
     "dialect": "mysql"
   },
   "test": {
