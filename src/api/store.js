@@ -1,16 +1,18 @@
 import { Router } from 'express';
 import request from 'request';
+const convert = require('xml-js');
 
 const router = Router();
 
-//주변관광정보
+//관광정보 키워드 검색
 router.get('/search', async (req, res) => {
-  let regionCode = '2';
+  const searchWord = req.body.word; //나중에 위치 받아오면 그 주변 지역코드로 바꿔서
+  console.log(searchWord);
   var url =
-    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword';
   var queryParams =
     '?' +
-    encodeURIComponent('serviceKey') +
+    encodeURIComponent('ServiceKey') +
     '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
   queryParams +=
     '&' +
@@ -30,10 +32,54 @@ router.get('/search', async (req, res) => {
     '=' +
     encodeURIComponent('AppTest'); /* */
   queryParams +=
+    '&' + encodeURIComponent('listYN') + '=' + encodeURIComponent('Y');
+  queryParams +=
+    '&' + encodeURIComponent('arrange') + '=' + encodeURIComponent('A');
+  queryParams +=
+    '&' + encodeURIComponent('keyword') + '=' + encodeURI(searchWord);
+  request(
+    {
+      url: url + queryParams,
+      method: 'GET',
+    },
+    function (error, response, body) {
+      //console.log("Status", response.statusCode);
+      //console.log("Headers", JSON.stringify(response.headers));
+      //console.log("Reponse received", body);
+      //let info = JSON.parse(body);
+      res.send(convert.xml2json(body));
+    }
+  );
+});
+//카테고리별 검색 (음식/카페/숙박/레포츠)
+router.get('/restaurant', async (req, res) => {
+  var url =
+    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var queryParams =
+    '?' +
+    encodeURIComponent('serviceKey') +
+    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+  queryParams +=
     '&' +
-    encodeURIComponent('areaCode') +
+    encodeURIComponent('numOfRows') +
     '=' +
-    encodeURIComponent(regionCode); /*지역 */
+    encodeURIComponent('10'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileOS') +
+    '=' +
+    encodeURIComponent('ETC'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileApp') +
+    '=' +
+    encodeURIComponent('AppTest'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('A05');
+  queryParams +=
+    '&' + encodeURIComponent('cat2') + '=' + encodeURIComponent('A0502');
 
   request(
     {
@@ -45,9 +91,141 @@ router.get('/search', async (req, res) => {
       //console.log("Headers", JSON.stringify(response.headers));
       //console.log("Reponse received", body);
       //let info = JSON.parse(body);
-      res.json(body);
+      res.send(convert.xml2json(body));
     }
   );
 });
+
+router.get('/cafe', async (req, res) => {
+  var url =
+    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var queryParams =
+    '?' +
+    encodeURIComponent('serviceKey') +
+    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+  queryParams +=
+    '&' +
+    encodeURIComponent('numOfRows') +
+    '=' +
+    encodeURIComponent('10'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileOS') +
+    '=' +
+    encodeURIComponent('ETC'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileApp') +
+    '=' +
+    encodeURIComponent('AppTest'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('A05');
+  queryParams +=
+    '&' + encodeURIComponent('cat2') + '=' + encodeURIComponent('A0502');
+  queryParams +=
+    '&' + encodeURIComponent('cat3') + '=' + encodeURIComponent('A05020900');
+
+  request(
+    {
+      url: url + queryParams,
+      method: 'GET',
+    },
+    function (error, response, body) {
+      //console.log("Status", response.statusCode);
+      //console.log("Headers", JSON.stringify(response.headers));
+      //console.log("Reponse received", body);
+      //let info = JSON.parse(body);
+      res.send(convert.xml2json(body));
+    }
+  );
+});
+
+router.get('/stay', async (req, res) => {
+  var url =
+    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var queryParams =
+    '?' +
+    encodeURIComponent('serviceKey') +
+    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+  queryParams +=
+    '&' +
+    encodeURIComponent('numOfRows') +
+    '=' +
+    encodeURIComponent('10'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileOS') +
+    '=' +
+    encodeURIComponent('ETC'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileApp') +
+    '=' +
+    encodeURIComponent('AppTest'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('B02');
+
+  request(
+    {
+      url: url + queryParams,
+      method: 'GET',
+    },
+    function (error, response, body) {
+      //console.log("Status", response.statusCode);
+      //console.log("Headers", JSON.stringify(response.headers));
+      //console.log("Reponse received", body);
+      //let info = JSON.parse(body);
+      res.send(convert.xml2json(body));
+    }
+  );
+});
+
+router.get('/leport', async (req, res) => {
+  var url =
+    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var queryParams =
+    '?' +
+    encodeURIComponent('serviceKey') +
+    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+  queryParams +=
+    '&' +
+    encodeURIComponent('numOfRows') +
+    '=' +
+    encodeURIComponent('10'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileOS') +
+    '=' +
+    encodeURIComponent('ETC'); /* */
+  queryParams +=
+    '&' +
+    encodeURIComponent('MobileApp') +
+    '=' +
+    encodeURIComponent('AppTest'); /* */
+  queryParams +=
+    '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('A03');
+
+  request(
+    {
+      url: url + queryParams,
+      method: 'GET',
+    },
+    function (error, response, body) {
+      //console.log("Status", response.statusCode);
+      //console.log("Headers", JSON.stringify(response.headers));
+      //console.log("Reponse received", body);
+      //let info = JSON.parse(body);
+      res.send(convert.xml2json(body));
+    }
+  );
+});
+
+//위치기반 검색 (추후 좌표값 요청으로 받으면 x,y 파라미터만 수정 후 반환! )
 
 export default router;
