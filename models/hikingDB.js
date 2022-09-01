@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 
 module.exports = class hikingdata extends Sequelize.Model {
   static init(sequelize) {
@@ -11,18 +11,18 @@ module.exports = class hikingdata extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "hikingdata",
-        tableName: "hikingdatas",
+        modelName: 'hikingdata',
+        tableName: 'hikingdatas',
         paranoid: false,
-        charset: "utf8mb4",
-        collate: "utf8mb4_general_ci",
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
   static associate(db) {
     db.hikingdata.belongsTo(db.mountaindata, {
-      foriegnKey: "mountainid",
-      targetKey: "id",
+      foriegnKey: 'mountainid',
+      targetKey: 'id',
     });
   }
 };
