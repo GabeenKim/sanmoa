@@ -42,7 +42,7 @@ router.get('/search', async (req, res) => {
       url: url + queryParams,
       method: 'GET',
     },
-    function (error, response, body) {
+    await function (error, response, body) {
       //console.log("Status", response.statusCode);
       //console.log("Headers", JSON.stringify(response.headers));
       //console.log("Reponse received", body);
@@ -86,7 +86,7 @@ router.get('/restaurant', async (req, res) => {
       url: url + queryParams,
       method: 'GET',
     },
-    function (error, response, body) {
+    await function (error, response, body) {
       //console.log("Status", response.statusCode);
       //console.log("Headers", JSON.stringify(response.headers));
       //console.log("Reponse received", body);
@@ -132,7 +132,7 @@ router.get('/cafe', async (req, res) => {
       url: url + queryParams,
       method: 'GET',
     },
-    function (error, response, body) {
+    await function (error, response, body) {
       //console.log("Status", response.statusCode);
       //console.log("Headers", JSON.stringify(response.headers));
       //console.log("Reponse received", body);
@@ -174,7 +174,7 @@ router.get('/stay', async (req, res) => {
       url: url + queryParams,
       method: 'GET',
     },
-    function (error, response, body) {
+    await function (error, response, body) {
       //console.log("Status", response.statusCode);
       //console.log("Headers", JSON.stringify(response.headers));
       //console.log("Reponse received", body);
@@ -216,7 +216,7 @@ router.get('/leport', async (req, res) => {
       url: url + queryParams,
       method: 'GET',
     },
-    function (error, response, body) {
+    await function (error, response, body) {
       //console.log("Status", response.statusCode);
       //console.log("Headers", JSON.stringify(response.headers));
       //console.log("Reponse received", body);
