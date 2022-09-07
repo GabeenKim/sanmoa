@@ -1,21 +1,27 @@
 const Sequelize = require('sequelize');
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class userdata extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
         email: {
           type: Sequelize.STRING(50),
         },
+        name: {
+          type: Sequelize.STRING,
+        },
         password: {
           type: Sequelize.STRING(100),
+        },
+        mileage: {
+          type: Sequelize.INTEGER,
         },
       },
       {
         sequelize,
         timestamps: false,
-        modelName: 'User',
-        tableName: 'Users',
+        modelName: 'userdata',
+        tableName: 'userdatas',
         paranoid: false,
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
@@ -23,6 +29,6 @@ module.exports = class User extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.User.hasMany(db.Post, { foriegnKey: 'UserId', targetKey: 'id' }); //자식릴레이션인 posts에서 User의 id를 사용할 수 있도록 지정.
+    db.userdata.hasMany(db.Post, { foriegnKey: 'UserId', targetKey: 'id' }); //자식릴레이션인 posts에서 User의 id를 사용할 수 있도록 지정.
   }
 };

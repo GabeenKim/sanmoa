@@ -5,7 +5,7 @@ const hikingdata = require('./hikingDB');
 const mountaindata = require('./mountainDB');
 const Mountain = require('./mountain');
 const storedata = require('./storeDB');
-const User = require('./userDB');
+const userdata = require('./userDB');
 const Code = require('./region');
 
 const env = process.env.NODE_ENV || 'development';
@@ -26,7 +26,7 @@ db.commentdata = commentdata;
 db.hikingdata = hikingdata;
 db.mountaindata = mountaindata;
 db.storedata = storedata;
-db.User = User;
+db.userdata = userdata;
 db.Mountain = Mountain;
 db.Code = Code;
 
@@ -35,7 +35,7 @@ commentdata.init(sequelize);
 hikingdata.init(sequelize);
 mountaindata.init(sequelize);
 storedata.init(sequelize);
-User.init(sequelize);
+userdata.init(sequelize);
 Mountain.init(sequelize);
 Code.init(sequelize);
 
@@ -44,7 +44,7 @@ commentdata.associate(db);
 hikingdata.associate(db);
 mountaindata.associate(db);
 storedata.associate(db);
-User.associate(db);
+userdata.associate(db);
 Mountain.associate(db);
 Code.associate(db);
 

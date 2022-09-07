@@ -20,7 +20,7 @@ auth.get('/', async (req, res) => {
 
 //회원가입
 auth.post('/register', async (req, res) => {
-  const { email, name, password, maileage } = req.body;
+  const { email, name, password } = req.body;
   const userDatas = await userdata.findAll({
     where: {
       email: email,
@@ -39,7 +39,6 @@ auth.post('/register', async (req, res) => {
     email: email,
     name: name,
     password: hashedPassword,
-    maileage: maileage,
   });
 
   return res.json({
