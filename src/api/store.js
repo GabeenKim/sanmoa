@@ -8,8 +8,7 @@ const router = Router();
 router.get('/search', async (req, res) => {
   const searchWord = req.body.word; //나중에 위치 받아오면 그 주변 지역코드로 바꿔서
   console.log(searchWord);
-  var url =
-    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword';
+  var url = 'http://apis.data.go.kr/B551011/KorService/searchKeyword';
   var queryParams =
     '?' +
     encodeURIComponent('ServiceKey') +
@@ -53,8 +52,7 @@ router.get('/search', async (req, res) => {
 });
 //카테고리별 검색 (음식/카페/숙박/레포츠)
 router.get('/restaurant', async (req, res) => {
-  var url =
-    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var url = 'http://apis.data.go.kr/B551011/KorService/areaBasedList';
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
@@ -80,6 +78,8 @@ router.get('/restaurant', async (req, res) => {
     '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('A05');
   queryParams +=
     '&' + encodeURIComponent('cat2') + '=' + encodeURIComponent('A0502');
+  queryParams +=
+    '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
 
   request(
     {
@@ -87,18 +87,14 @@ router.get('/restaurant', async (req, res) => {
       method: 'GET',
     },
     await function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
-      //let info = JSON.parse(body);
-      res.send(convert.xml2json(body));
+      let info = JSON.parse(body);
+      res.json(info);
     }
   );
 });
 
 router.get('/cafe', async (req, res) => {
-  var url =
-    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var url = 'http://apis.data.go.kr/B551011/KorService/areaBasedList';
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
@@ -126,6 +122,8 @@ router.get('/cafe', async (req, res) => {
     '&' + encodeURIComponent('cat2') + '=' + encodeURIComponent('A0502');
   queryParams +=
     '&' + encodeURIComponent('cat3') + '=' + encodeURIComponent('A05020900');
+  queryParams +=
+    '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
 
   request(
     {
@@ -133,18 +131,14 @@ router.get('/cafe', async (req, res) => {
       method: 'GET',
     },
     await function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
-      //let info = JSON.parse(body);
-      res.send(convert.xml2json(body));
+      let info = JSON.parse(body);
+      res.json(info);
     }
   );
 });
 
 router.get('/stay', async (req, res) => {
-  var url =
-    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var url = 'http://apis.data.go.kr/B551011/KorService/areaBasedList';
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
@@ -168,6 +162,8 @@ router.get('/stay', async (req, res) => {
     encodeURIComponent('AppTest'); /* */
   queryParams +=
     '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('B02');
+  queryParams +=
+    '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
 
   request(
     {
@@ -175,18 +171,14 @@ router.get('/stay', async (req, res) => {
       method: 'GET',
     },
     await function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
-      //let info = JSON.parse(body);
-      res.send(convert.xml2json(body));
+      let info = JSON.parse(body);
+      res.json(info);
     }
   );
 });
 
 router.get('/leport', async (req, res) => {
-  var url =
-    'http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList';
+  var url = 'http://apis.data.go.kr/B551011/KorService/areaBasedList';
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
@@ -217,11 +209,8 @@ router.get('/leport', async (req, res) => {
       method: 'GET',
     },
     await function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
-      //let info = JSON.parse(body);
-      res.send(convert.xml2json(body));
+      let info = JSON.parse(body);
+      res.json(info);
     }
   );
 });

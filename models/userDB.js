@@ -29,6 +29,9 @@ module.exports = class userdata extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.userdata.hasMany(db.Post, { foriegnKey: 'UserId', targetKey: 'id' }); //자식릴레이션인 posts에서 User의 id를 사용할 수 있도록 지정.
+    db.userdata.hasMany(db.Post, {
+      foriegnKey: 'userdatumId',
+      targetKey: 'id',
+    }); //자식릴레이션인 posts에서 User의 id를 사용할 수 있도록 지정.
   }
 };

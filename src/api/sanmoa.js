@@ -1,6 +1,7 @@
 //search,length,location,
 import { Router } from 'express';
 import request from 'request';
+
 const convert = require('xml-js');
 
 const router = Router();
@@ -10,9 +11,19 @@ router.get('/', function (req, res) {
 });
 //등산로 좌표/데이터, 총 경로(m),시점높이?,종점높이, 난이도
 router.get('/route', async (req, res) => {
+  let { mountainNm, xLocation, yLocation } = req.body;
+
+  const REST_API_KEY = '0d717e892d16c357d2902d6142f0ccd0';
+  const getRegionCode = await fetch(
+    `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${xLocation}&y=${yLocation}`,
+    {
+      method: 'GET',
+      headers: { Authorization: `KakaoAK ${REST_API_KEY}` },
+    }
+  ).then((response) => response.json());
+  const regionCode = getRegionCode.documents[0].code.substr(0, 8);
+
   var url = 'http://api.vworld.kr/req/data';
-  let mountainNm = '철마산';
-  let regionCode = '28245101';
   var queryParams =
     '?' +
     encodeURIComponent('key') +
@@ -21,7 +32,7 @@ router.get('/route', async (req, res) => {
     '&' +
     encodeURIComponent('domain') +
     '=' +
-    encodeURIComponent('http://52.79.84.247:4000'); /* */
+    encodeURIComponent('http://3.35.173.122:4000'); /* */
   queryParams +=
     '&' +
     encodeURIComponent('service') +
@@ -48,17 +59,9 @@ router.get('/route', async (req, res) => {
     '&' +
     encodeURIComponent('columns') +
     '=' +
-    encodeURIComponent('sec_len,start_z,end_z,cat_nam,mntn_nm,ag_geom'); /* */
-  queryParams +=
-    '&' +
-    encodeURIComponent('geometry') +
-    '=' +
-    encodeURIComponent('true'); /* */
-  queryParams +=
-    '&' +
-    encodeURIComponent('attribute') +
-    '=' +
-    encodeURIComponent('true'); /* */
+    encodeURIComponent(
+      'sec_len,start_z,end_z,cat_nam,mntn_nm,ag_geom'
+    ); /*총길이,시작점,종착점,명칭,난이도*/
 
   request(
     {
@@ -66,19 +69,17 @@ router.get('/route', async (req, res) => {
       method: 'GET',
     },
     function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
       let info = JSON.parse(body);
       res.json(info);
     }
   );
 });
 
-router.get('/location', async (req, res) => {
-  let xLocation = 127.1086228;
-  let yLocation = 37.4012191;
-  var url = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${xLocation}&y=${yLocation}`;
+//웹 서칭(다음 검색 기반)
+router.get('/keyword', async (req, res) => {
+  let keyword = req.body.keyword;
+  let queryword = encodeURI(keyword, 'UTF-8');
+  var url = `https://dapi.kakao.com//v2/search/web?query=${queryword}&size=30`;
   var REST_API_KEY = '0d717e892d16c357d2902d6142f0ccd0';
   request(
     {
@@ -87,9 +88,6 @@ router.get('/location', async (req, res) => {
       method: 'GET',
     },
     function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
       let info = JSON.parse(body);
 
       res.json(info);
@@ -98,8 +96,8 @@ router.get('/location', async (req, res) => {
 });
 
 //산 정보
-const mountain = '지리산'; // 추후 지리산은 query로 요청 받으면 전달
 router.get('/search', async (req, res) => {
+  const mountain = req.body.mntNm; // 추후 지리산은 query로 요청 받으면 전달
   var url =
     'http://openapi.forest.go.kr/openapi/service/trailInfoService/getforeststoryservice';
   var queryParams =
@@ -125,9 +123,6 @@ router.get('/search', async (req, res) => {
       method: 'GET',
     },
     function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
       var xmlToJson = convert.xml2json(body, { compact: true, spaces: 4 });
       let info = JSON.parse(xmlToJson);
       res.json(info);
