@@ -208,6 +208,8 @@ router.get('/leport', async (req, res) => {
     '=' +
     encodeURIComponent('AppTest'); /* */
   queryParams +=
+    '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
+  queryParams +=
     '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('A03');
   queryParams +=
     '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('1');
