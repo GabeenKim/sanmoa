@@ -17,7 +17,7 @@ router.get('/search', async (req, res) => {
     '&' +
     encodeURIComponent('numOfRows') +
     '=' +
-    encodeURIComponent('1000'); /* */
+    encodeURIComponent('100'); /* */
   queryParams +=
     '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
   queryParams +=
@@ -35,6 +35,10 @@ router.get('/search', async (req, res) => {
   queryParams +=
     '&' + encodeURIComponent('arrange') + '=' + encodeURIComponent('A');
   queryParams +=
+    '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('1');
+  queryParams +=
+    '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
+  queryParams +=
     '&' + encodeURIComponent('keyword') + '=' + encodeURI(searchWord);
   request(
     {
@@ -42,11 +46,8 @@ router.get('/search', async (req, res) => {
       method: 'GET',
     },
     await function (error, response, body) {
-      //console.log("Status", response.statusCode);
-      //console.log("Headers", JSON.stringify(response.headers));
-      //console.log("Reponse received", body);
-      //let info = JSON.parse(body);
-      res.send(convert.xml2json(body));
+      let info = JSON.parse(body);
+      res.json(info);
     }
   );
 });
@@ -80,6 +81,8 @@ router.get('/restaurant', async (req, res) => {
     '&' + encodeURIComponent('cat2') + '=' + encodeURIComponent('A0502');
   queryParams +=
     '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
+  queryParams +=
+    '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('1');
 
   request(
     {
@@ -124,6 +127,8 @@ router.get('/cafe', async (req, res) => {
     '&' + encodeURIComponent('cat3') + '=' + encodeURIComponent('A05020900');
   queryParams +=
     '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
+  queryParams +=
+    '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('1');
 
   request(
     {
@@ -164,6 +169,8 @@ router.get('/stay', async (req, res) => {
     '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('B02');
   queryParams +=
     '&' + encodeURIComponent('_type') + '=' + encodeURIComponent('json');
+  queryParams +=
+    '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('1');
 
   request(
     {
@@ -202,6 +209,8 @@ router.get('/leport', async (req, res) => {
     encodeURIComponent('AppTest'); /* */
   queryParams +=
     '&' + encodeURIComponent('cat1') + '=' + encodeURIComponent('A03');
+  queryParams +=
+    '&' + encodeURIComponent('areaCode') + '=' + encodeURIComponent('1');
 
   request(
     {
