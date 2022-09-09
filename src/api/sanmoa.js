@@ -9,6 +9,7 @@ const router = Router();
 router.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
+``;
 //등산로 좌표/데이터, 총 경로(m),시점높이?,종점높이, 난이도
 router.get('/route', async (req, res) => {
   let { mountainNm, xLocation, yLocation } = req.body;
