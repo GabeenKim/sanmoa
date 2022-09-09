@@ -61,7 +61,7 @@ router.get('/restaurant', async (req, res) => {
     '&' +
     encodeURIComponent('numOfRows') +
     '=' +
-    encodeURIComponent('10'); /* */
+    encodeURIComponent('100'); /* */
   queryParams +=
     '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
   queryParams +=
@@ -103,7 +103,7 @@ router.get('/cafe', async (req, res) => {
     '&' +
     encodeURIComponent('numOfRows') +
     '=' +
-    encodeURIComponent('10'); /* */
+    encodeURIComponent('100'); /* */
   queryParams +=
     '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
   queryParams +=
@@ -147,7 +147,7 @@ router.get('/stay', async (req, res) => {
     '&' +
     encodeURIComponent('numOfRows') +
     '=' +
-    encodeURIComponent('10'); /* */
+    encodeURIComponent('100'); /* */
   queryParams +=
     '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
   queryParams +=
@@ -187,7 +187,7 @@ router.get('/leport', async (req, res) => {
     '&' +
     encodeURIComponent('numOfRows') +
     '=' +
-    encodeURIComponent('10'); /* */
+    encodeURIComponent('100'); /* */
   queryParams +=
     '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
   queryParams +=

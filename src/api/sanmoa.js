@@ -13,6 +13,7 @@ router.get('/', function (req, res) {
 router.get('/route', async (req, res) => {
   let { mountainNm, xLocation, yLocation } = req.body;
 
+  //카카오 지역코드 변환
   const REST_API_KEY = '0d717e892d16c357d2902d6142f0ccd0';
   const getRegionCode = await fetch(
     `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${xLocation}&y=${yLocation}`,
@@ -23,6 +24,7 @@ router.get('/route', async (req, res) => {
   ).then((response) => response.json());
   const regionCode = getRegionCode.documents[0].code.substr(0, 8);
 
+  //등산로api
   var url = 'http://api.vworld.kr/req/data';
   var queryParams =
     '?' +
