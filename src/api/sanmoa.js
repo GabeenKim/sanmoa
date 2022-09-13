@@ -138,16 +138,14 @@ router.get('/totalroute', async (req, res) => {
   console.log(keyword);
   const mntnPath = await path.findAll({
     where: {
-      MNTN_NM: { like: `%${keyword}%` },
+      MNTN_NM: keyword,
     },
     attributes: ['id', 'MNTN_NM', 'PMNTN_SN', 'paths_x', 'paths_y'],
   });
 
-  const pathCode = mntnPath.PMNTN_SN;
-
   const mntnSpot = await mountaindata.findAll({
     where: {
-      PMNTN_SN: pathCode,
+      MNTN_NM: keyword,
     },
     attributes: ['MNTN_CODE', 'PMNTN_SN', 'PMNTN_NM', 'PMNTN_DFFL', 'PMNTN_LT'],
   });
@@ -165,7 +163,6 @@ router.get('/totalroute', async (req, res) => {
     });
   }
   return res.json({
-    // mntnSpot,
     mntnSpot,
     mntnPath,
   });
