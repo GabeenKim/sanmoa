@@ -76,7 +76,7 @@ auth.post('/login', async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: '10m',
+        expiresIn: '300m',
         issuer: 'nodebird',
       }
     );

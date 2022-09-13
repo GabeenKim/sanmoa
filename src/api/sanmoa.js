@@ -4,7 +4,6 @@ import request from 'request';
 import path from '../../models/path';
 import mountaindata from '../../models/mountainDB';
 const convert = require('xml-js');
-
 const router = Router();
 //일단 지도
 router.get('/', function (req, res) {
@@ -135,11 +134,11 @@ router.get('/search', async (req, res) => {
 });
 
 router.get('/totalroute', async (req, res) => {
-  const keyword = req.body;
-
+  const keyword = req.body.keyword;
+  console.log(keyword);
   const mntnPath = await path.findAll({
     where: {
-      MNTN_NM: keyword,
+      MNTN_NM: { like: `%${keyword}%` },
     },
     attributes: ['id', 'MNTN_NM', 'PMNTN_SN', 'paths_x', 'paths_y'],
   });

@@ -46,7 +46,7 @@ const mntFile = [
 
 app.get('/', async (res, req) => {
   fs.readFile(
-    'C:/Users/82103/Desktop/산/호암산/PMNTN_호암산_115450101.json',
+    'C:/Users/82103/Desktop/산/관악산/PMNTN_관악산_116200201.json',
     'utf8',
     async (error, jsonFile) => {
       if (error) return console.log(error);
@@ -74,7 +74,7 @@ app.get('/', async (res, req) => {
           });
         }
         await mountaindata.create({
-          NTN_NM: MNTN_NM,
+          MNTN_NM: MNTN_NM,
           MNTN_CODE: MNTN_CODE,
           PMNTN_SN: PMNTN_SN,
           PMNTN_NM: PMNTN_NM,

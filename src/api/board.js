@@ -58,7 +58,7 @@ post.post('/', verifyToken, async (req, res) => {
 
   const postCreate = await board.create({
     content: content,
-    UserId: jwtUserId,
+    userdatumId: jwtUserId,
   });
 
   return res.json({
@@ -103,7 +103,7 @@ post.put('/:postId', verifyToken, async (req, res) => {
     },
     {
       where: {
-        UserId: jwtUserId,
+        userdatumId: jwtUserId,
         id: postId,
       },
     }
@@ -146,7 +146,7 @@ post.delete('/:postId', verifyToken, async (req, res) => {
     //동일 작성자, 동일 글일 경우에만 내용을 삭제한다.
     where: {
       id: postId,
-      UserId: jwtUserId,
+      userdatumId: jwtUserId,
     },
   });
   res.json({
