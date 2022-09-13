@@ -1,7 +1,8 @@
 //search,length,location,
 import { Router } from 'express';
 import request from 'request';
-
+import path from '../../models/path';
+import mountaindata from '../../models/mountainDB';
 const convert = require('xml-js');
 
 const router = Router();
@@ -9,10 +10,10 @@ const router = Router();
 router.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
-``;
+
 //등산로 좌표/데이터, 총 경로(m),시점높이?,종점높이, 난이도
 router.get('/route', async (req, res) => {
-  let { mountainNm, xLocation, yLocation } = req.body;
+  let { xLocation, yLocation } = req.body;
 
   //카카오 지역코드 변환
   const REST_API_KEY = '0d717e892d16c357d2902d6142f0ccd0';
@@ -56,7 +57,7 @@ router.get('/route', async (req, res) => {
     encodeURIComponent('attrfilter') +
     '=' +
     encodeURIComponent(
-      'emdCd:=:' + regionCode + '|mntn_nm:like:' + mountainNm
+      'emdCd:=:' + regionCode //+ '|mntn_nm:like:' + mountainNm
     ); /*읍면동코드 */
   queryParams +=
     '&' +
@@ -131,6 +132,32 @@ router.get('/search', async (req, res) => {
       res.json(info);
     }
   );
+});
+
+router.get('/totalroute', async (req, res) => {
+  const mntnSpot = await mountaindata.findAll({
+    attributes: [
+      'id',
+      'MNTN_CODE',
+      'PMNTN_SN',
+      'PMNTN_NM',
+      'PMNTN_DFFL',
+      'PMNTN_LT',
+    ],
+  });
+  const mntnPath = await path.findAll({
+    attributes: ['id', 'MNTN_NM', 'PMNTN_SN', 'paths_x', 'paths_y'],
+  });
+  if (mntnSpot.length === 0) {
+    //데이터가 하나도 없을 시, []
+    return res.json({
+      data: [],
+    });
+  }
+  return res.json({
+    // mntnSpot,
+    mntnSpot,
+  });
 });
 
 export default router;

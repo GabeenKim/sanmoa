@@ -4,12 +4,12 @@ module.exports = class mountaindata extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        name: { type: Sequelize.STRING(50) },
-        location_x: { type: Sequelize.DOUBLE },
-        location_y: { type: Sequelize.DOUBLE },
-        level: { type: Sequelize.STRING(50) },
-        content: { type: Sequelize.STRING(1000) },
-        root: { type: Sequelize.STRING(1000) },
+        MNTN_NM: { type: Sequelize.STRING },
+        MNTN_CODE: { type: Sequelize.STRING },
+        PMNTN_SN: { type: Sequelize.STRING },
+        PMNTN_NM: { type: Sequelize.STRING },
+        PMNTN_DFFL: { type: Sequelize.STRING },
+        PMNTN_LT: { type: Sequelize.STRING },
       },
       {
         sequelize,
@@ -22,10 +22,5 @@ module.exports = class mountaindata extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    db.mountaindata.hasMany(db.hikingdata, {
-      foriegnKey: 'mountainid',
-      targetKey: 'id',
-    });
-  }
+  static associate(db) {}
 };

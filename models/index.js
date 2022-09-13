@@ -1,12 +1,10 @@
 const { Sequelize } = require('sequelize');
 const Post = require('./boardDB');
 const commentdata = require('./commentDB');
-const hikingdata = require('./hikingDB');
-const mountaindata = require('./mountainDB');
-const Mountain = require('./mountain');
 const storedata = require('./storeDB');
 const userdata = require('./userDB');
-const Code = require('./region');
+const path = require('./path');
+const mountaindata = require('./mountainDB');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
@@ -23,29 +21,23 @@ db.sequelize = sequelize;
 
 db.Post = Post;
 db.commentdata = commentdata;
-db.hikingdata = hikingdata;
-db.mountaindata = mountaindata;
 db.storedata = storedata;
 db.userdata = userdata;
-db.Mountain = Mountain;
-db.Code = Code;
+db.path = path;
+db.mountaindata = mountaindata;
 
 Post.init(sequelize);
 commentdata.init(sequelize);
-hikingdata.init(sequelize);
-mountaindata.init(sequelize);
 storedata.init(sequelize);
 userdata.init(sequelize);
-Mountain.init(sequelize);
-Code.init(sequelize);
+path.init(sequelize);
+mountaindata.init(sequelize);
 
 Post.associate(db);
 commentdata.associate(db);
-hikingdata.associate(db);
-mountaindata.associate(db);
 storedata.associate(db);
 userdata.associate(db);
-Mountain.associate(db);
-Code.associate(db);
+path.associate(db);
+mountaindata.associate(db);
 
 module.exports = db;
