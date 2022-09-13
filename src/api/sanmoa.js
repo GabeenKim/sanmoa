@@ -135,12 +135,24 @@ router.get('/search', async (req, res) => {
 });
 
 router.get('/totalroute', async (req, res) => {
-  const mntnSpot = await mountaindata.findAll({
-    attributes: ['MNTN_CODE', 'PMNTN_SN', 'PMNTN_NM', 'PMNTN_DFFL', 'PMNTN_LT'],
-  });
+  const keyword = req.body;
+
   const mntnPath = await path.findAll({
+    where: {
+      MNTN_NM: keyword,
+    },
     attributes: ['id', 'MNTN_NM', 'PMNTN_SN', 'paths_x', 'paths_y'],
   });
+
+  const pathCode = mntnPath.PMNTN_SN;
+
+  const mntnSpot = await mountaindata.findAll({
+    where: {
+      PMNTN_SN: pathCode,
+    },
+    attributes: ['MNTN_CODE', 'PMNTN_SN', 'PMNTN_NM', 'PMNTN_DFFL', 'PMNTN_LT'],
+  });
+
   if (mntnSpot.length === 0) {
     //데이터가 하나도 없을 시, []
     return res.json({
