@@ -5,7 +5,7 @@ const convert = require('xml-js');
 const router = Router();
 
 //관광정보 키워드 검색
-router.get('/search', async (req, res) => {
+router.post('/search', async (req, res) => {
   const searchWord = req.body.word; //나중에 위치 받아오면 그 주변 지역코드로 바꿔서
   console.log(searchWord);
   var url = 'http://apis.data.go.kr/B551011/KorService/searchKeyword';

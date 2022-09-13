@@ -3,6 +3,8 @@ import { Router } from 'express';
 import request from 'request';
 import path from '../../models/path';
 import mountaindata from '../../models/mountainDB';
+import proj4 from 'proj4';
+
 const convert = require('xml-js');
 const router = Router();
 //일단 지도
@@ -11,7 +13,7 @@ router.get('/', function (req, res) {
 });
 
 //등산로 좌표/데이터, 총 경로(m),시점높이?,종점높이, 난이도
-router.get('/route', async (req, res) => {
+router.post('/route', async (req, res) => {
   let { xLocation, yLocation } = req.body;
 
   //카카오 지역코드 변환
@@ -79,7 +81,7 @@ router.get('/route', async (req, res) => {
 });
 
 //웹 서칭(다음 검색 기반)
-router.get('/keyword', async (req, res) => {
+router.post('/keyword', async (req, res) => {
   let keyword = req.body.keyword;
   let queryword = encodeURI(keyword, 'UTF-8');
   var url = `https://dapi.kakao.com//v2/search/web?query=${queryword}&size=30`;
@@ -99,7 +101,7 @@ router.get('/keyword', async (req, res) => {
 });
 
 //산 정보
-router.get('/search', async (req, res) => {
+router.post('/search', async (req, res) => {
   const mountain = req.body.mntNm; // 추후 지리산은 query로 요청 받으면 전달
   var url =
     'http://openapi.forest.go.kr/openapi/service/trailInfoService/getforeststoryservice';
@@ -133,7 +135,7 @@ router.get('/search', async (req, res) => {
   );
 });
 
-router.get('/totalroute', async (req, res) => {
+router.post('/totalroute', async (req, res) => {
   const keyword = req.body.keyword;
   console.log(keyword);
   const mntnPath = await path.findAll({
@@ -162,6 +164,7 @@ router.get('/totalroute', async (req, res) => {
       data: [],
     });
   }
+
   return res.json({
     mntnSpot,
     mntnPath,
