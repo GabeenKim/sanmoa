@@ -12,7 +12,7 @@ router.post('/search', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('ServiceKey') +
-    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+    process.env.DATA_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('numOfRows') +
@@ -57,7 +57,7 @@ router.get('/restaurant', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
-    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+    process.env.DATA_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('numOfRows') +
@@ -101,7 +101,7 @@ router.get('/cafe', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
-    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+    process.env.DATA_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('numOfRows') +
@@ -147,7 +147,7 @@ router.get('/stay', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
-    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+    process.env.DATA_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('numOfRows') +
@@ -189,7 +189,7 @@ router.get('/leport', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('serviceKey') +
-    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+    process.env.DATA_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('numOfRows') +
@@ -225,7 +225,5 @@ router.get('/leport', async (req, res) => {
     }
   );
 });
-
-//위치기반 검색 (추후 좌표값 요청으로 받으면 x,y 파라미터만 수정 후 반환! )
 
 export default router;

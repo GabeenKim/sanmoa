@@ -61,11 +61,11 @@ router.put('/', verifyToken, async (req, res) => {
   const mysql = require('mysql2'); // mysql 모듈 로드
   const conn = {
     // mysql 접속 설정
-    host: '54.180.118.33',
+    host: process.env.MYSQL_HOST,
     port: '3306',
-    user: 'sanmoadb',
-    password: '1234',
-    database: 'sanmoadb',
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
   };
   let connection = mysql.createConnection(conn); // DB 커넥션 생성
   connection.connect(); // DB 접속
@@ -84,7 +84,7 @@ router.put('/', verifyToken, async (req, res) => {
       console.log(err);
     }
     return res.json({
-      data: '수정되었습니다.',
+      data: 'complete',
     });
   });
 

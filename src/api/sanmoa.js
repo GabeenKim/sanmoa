@@ -16,7 +16,7 @@ router.post('/route', async (req, res) => {
   let { xLocation, yLocation } = req.body;
 
   //카카오 지역코드 변환
-  const REST_API_KEY = '0d717e892d16c357d2902d6142f0ccd0';
+  const REST_API_KEY = process.env.REST_API_KEY;
   const getRegionCode = await fetch(
     `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${xLocation}&y=${yLocation}`,
     {
@@ -31,7 +31,7 @@ router.post('/route', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('key') +
-    '=47B02C10-99B2-3469-AA99-49FBD50E3454'; /* Service Key*/
+    process.env.VWORLD_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('domain') +
@@ -84,7 +84,7 @@ router.post('/keyword', async (req, res) => {
   let keyword = req.body.keyword;
   let queryword = encodeURI(keyword, 'UTF-8');
   var url = `https://dapi.kakao.com//v2/search/web?query=${queryword}&size=30`;
-  var REST_API_KEY = '0d717e892d16c357d2902d6142f0ccd0';
+  var REST_API_KEY = process.env.REST_API_KEY;
   request(
     {
       url: url,
@@ -107,7 +107,7 @@ router.post('/search', async (req, res) => {
   var queryParams =
     '?' +
     encodeURIComponent('servicekey') +
-    '=e9q6FRryTM2vX8VQxrb8dJwbnlvpvHu447HuwfJQw0zl%2B7cnoIu6HdJElNMaGpaKQ3sQ2GAEsOad%2BOWNCwJ%2FVg%3D%3D'; /* Service Key*/
+    process.env.DATA_API_KEY; /* Service Key*/
   queryParams +=
     '&' +
     encodeURIComponent('mntnNm') +
