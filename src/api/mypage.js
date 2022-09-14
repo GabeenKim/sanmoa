@@ -87,6 +87,7 @@ router.put('/', verifyToken, async (req, res) => {
       console.log(err);
     }
     return res.json({
+      userInfo,
       data: 'complete',
     });
   });
