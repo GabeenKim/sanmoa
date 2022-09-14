@@ -70,7 +70,9 @@ router.put('/', verifyToken, async (req, res) => {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
   };
+
   let connection = mysql.createConnection(conn); // DB 커넥션 생성
+
   connection.connect(); // DB 접속
 
   let sql = `UPDATE userdatas SET name = "${name}", password = "${hashedPassword}", age = ${age}, phone = "${phone}",contry = "${contry}",content = "${content}" WHERE id = ${jwtUserId}`;
@@ -80,6 +82,7 @@ router.put('/', verifyToken, async (req, res) => {
       console.log(err);
     }
   });
+
   sql = `SELECT name, age, email, phone, contry, content FROM userdatas  WHERE id = ${jwtUserId}`;
 
   connection.query(sql, function (err, results, fields) {
@@ -87,7 +90,6 @@ router.put('/', verifyToken, async (req, res) => {
       console.log(err);
     }
     return res.json({
-      userInfo,
       data: 'complete',
     });
   });
