@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import userdata from '../../models/userDB';
-// import cors from 'cors'; //여기에 불러와야 auth 라우터에 적용이 안 돼서,,?
+import bcrypt from 'bcrypt';
 
 const { verifyToken } = require('./middlewares');
 
@@ -33,23 +33,19 @@ router.get('/', verifyToken, async (req, res) => {
 //수정 -모듈 이용
 router.put('/', verifyToken, async (req, res) => {
   const jwtUserId = req.decoded.id;
-  const { age, phone, contry, content } = req.body;
+  const { name, age, password, confPw, phone, contry, content } = req.body;
 
   const userInfo = await userdata.findOne({
-    //id가 postId와 동일한 것 중 한 개만 읽어온다.(글의 존재여부, 작성자 식별을 위함))
     where: {
       id: jwtUserId,
     },
   });
 
   if (!userInfo) {
-    //해당 글이 없을 시
     return res.json({
       error: 'user does not exist',
     });
   }
-
-  console.log(jwtUserId);
 
   if (userInfo.id !== jwtUserId) {
     //jwt 검증된 id와 작성자가 다를 시 수정 금지.
@@ -57,6 +53,13 @@ router.put('/', verifyToken, async (req, res) => {
       error: 'Cannot modify informations',
     });
   }
+
+  if (confPw !== password) {
+    return res.json({
+      error: '비밀번호가 일치하지 않습니다.',
+    });
+  }
+  const hashedPassword = await bcrypt.hash(password, 10); //10 : salt/pw bcrypt 이용해 hash로 암호화.
 
   const mysql = require('mysql2'); // mysql 모듈 로드
   const conn = {
@@ -70,14 +73,14 @@ router.put('/', verifyToken, async (req, res) => {
   let connection = mysql.createConnection(conn); // DB 커넥션 생성
   connection.connect(); // DB 접속
 
-  let sql = `UPDATE userdatas SET age = ${age}, phone = "${phone}",contry = "${contry}",content = "${content}" WHERE id = ${jwtUserId}`;
+  let sql = `UPDATE userdatas SET name = "${name}", password = "${hashedPassword}", age = ${age}, phone = "${phone}",contry = "${contry}",content = "${content}" WHERE id = ${jwtUserId}`;
 
   connection.query(sql, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
   });
-  sql = `SELECT name,age, email, phone,contry, content FROM userdatas  WHERE id = ${jwtUserId}`;
+  sql = `SELECT name, age, email, phone, contry, content FROM userdatas  WHERE id = ${jwtUserId}`;
 
   connection.query(sql, function (err, results, fields) {
     if (err) {
