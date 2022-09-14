@@ -27,7 +27,7 @@ auth.post('/register', async (req, res) => {
     },
   });
   if (!email && !password) {
-    return res.json('정상적인 요청이 아닙니다.');
+    return res.json({ error: '정상적인 요청이 아닙니다.' });
   }
   if (userDatas.some((user) => user.email === email)) {
     return res.json({
@@ -61,7 +61,7 @@ auth.post('/login', async (req, res) => {
   });
   if (userDatas.length === 0) {
     return res.json({
-      error: '이메일또는 비밀번호가 일치하지 않습니다.',
+      error: '존재하지 않는 회원입니다',
     });
   }
   const comparedPw = await bcrypt.compareSync(password, userDatas[0].password); //요청된 pw와 select해온 이메일의 pw 비교. boolean 값으로 반환받기 위해 compareSync 사용
@@ -87,7 +87,7 @@ auth.post('/login', async (req, res) => {
     });
   }
   return res.json({
-    message: '이메일또는 비밀번호가 일치하지 않습니다.',
+    error: '이메일또는 비밀번호가 일치하지 않습니다.',
   });
 });
 auth.get('/test', verifyToken, (req, res) => {
