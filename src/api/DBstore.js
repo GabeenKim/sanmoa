@@ -1,6 +1,7 @@
 import express from 'express';
 import path from '../../models/path';
 import mountaindata from '../../models/mountainDB';
+import proj4 from 'proj4';
 
 const app = express();
 
@@ -38,6 +39,7 @@ const mntFile = [
   'C:/Users/82103/Desktop/산/용마산/PMNTN_용마산_112600501.json',
   'C:/Users/82103/Desktop/산/우면산/PMNTN_우면산_116500401.json',
   'C:/Users/82103/Desktop/산/우장산/PMNTN_우장산_115000501.json',
+  'C:/Users/82103/Desktop/산/인왕산/PMNTN_인왕산_114100401.json',
   'C:/Users/82103/Desktop/산/천장산/PMNTN_천장산_112300301.json',
   'C:/Users/82103/Desktop/산/청계산원터/PMNTN_청계산원터_116500804.json',
   'C:/Users/82103/Desktop/산/초안산/PMNTN_초안산_113500301.json',
@@ -46,7 +48,7 @@ const mntFile = [
 
 app.get('/', async (res, req) => {
   fs.readFile(
-    'C:/Users/82103/Desktop/산/관악산/PMNTN_관악산_116200201.json',
+    'C:/Users/82103/Desktop/산/인왕산/PMNTN_인왕산_114100401.json',
     'utf8',
     async (error, jsonFile) => {
       if (error) return console.log(error);
@@ -66,22 +68,30 @@ app.get('/', async (res, req) => {
           const pathX = jsonData.features[i].geometry.paths[0][j][0];
           const pathY = jsonData.features[i].geometry.paths[0][j][1];
 
-          await path.create({
-            MNTN_NM: MNTN_NM,
-            PMNTN_SN: PMNTN_SN,
-            paths_x: pathX,
-            paths_y: pathY,
-          });
+          const grs80UtmK =
+            '+proj=tmerc +lat_0=38 +lon_0=127 +k=0.9996 +x_0=200000 +y_0=600000 +ellps=GRS80 +units=m +no_defs ';
+          const wgs84 =
+            '+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees';
+
+          let result = proj4(grs80UtmK, wgs84, [Number(pathX), Number(pathY)]);
+
+          // await path.create({
+          //   MNTN_NM: MNTN_NM,
+          //   PMNTN_SN: PMNTN_SN,
+          //   paths_x: result[1],
+          //   paths_y: result[0],
+          // });
         }
-        await mountaindata.create({
-          MNTN_NM: MNTN_NM,
-          MNTN_CODE: MNTN_CODE,
-          PMNTN_SN: PMNTN_SN,
-          PMNTN_NM: PMNTN_NM,
-          PMNTN_DFFL: PMNTN_DFFL,
-          PMNTN_LT: PMNTN_LT,
-        });
+        // await mountaindata.create({
+        //   MNTN_NM: MNTN_NM,
+        //   MNTN_CODE: MNTN_CODE,
+        //   PMNTN_SN: PMNTN_SN,
+        //   PMNTN_NM: PMNTN_NM,
+        //   PMNTN_DFFL: PMNTN_DFFL,
+        //   PMNTN_LT: PMNTN_LT,
+        // });
       }
+      console.log('꿑');
     }
   );
 });

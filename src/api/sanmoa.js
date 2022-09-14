@@ -3,7 +3,6 @@ import { Router } from 'express';
 import request from 'request';
 import path from '../../models/path';
 import mountaindata from '../../models/mountainDB';
-import proj4 from 'proj4';
 
 const convert = require('xml-js');
 const router = Router();
