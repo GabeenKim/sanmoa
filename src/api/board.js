@@ -89,7 +89,7 @@ post.put('/:postId', verifyToken, async (req, res) => {
       error: 'That Post does not exist',
     });
   }
-  if (postDatas.UserId !== jwtUserId) {
+  if (postDatas.userdatumId !== jwtUserId) {
     //jwt 검증된 id와 작성자가 다를 시 수정 금지.
     return res.json({
       error: 'Cannot modify post',
