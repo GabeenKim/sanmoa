@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import board from '../../models/boardDB';
+import userdata from '../../models/userDB';
 // import cors from 'cors'; //여기에 불러와야 auth 라우터에 적용이 안 돼서,,?
 
 const post = Router();
@@ -10,9 +11,8 @@ post.get('/', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', true);
 
-  const postDatas = await board.findAll({
-    attributes: ['id', 'title', 'postdate'],
-  });
+  const postDatas = await board.findAll({});
+
   if (postDatas.length === 0) {
     //데이터가 하나도 없을 시, []
     return res.json({
@@ -35,6 +35,14 @@ post.get('/:postId', async (req, res) => {
       id: postId,
     },
   });
+  const userDatas = await userdata.findOne({
+    attributes: ['name'],
+    //id가 postId와 동일한 것 중 한 개만 읽어온다.
+    where: {
+      id: postDatas.userdatumId,
+    },
+  });
+
   if (!postDatas) {
     //postDatas가 false이면 존재하지 않는 것이다.
     return res.json({
@@ -43,6 +51,7 @@ post.get('/:postId', async (req, res) => {
   }
   return res.json({
     data: postDatas,
+    user: userDatas.name,
   });
 });
 
