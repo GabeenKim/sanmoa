@@ -11,7 +11,9 @@ post.get('/', async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', true);
 
-  const postDatas = await board.findAll({});
+  const postDatas = await board.findAll({
+    attributes: ['id', 'title', 'postdate'],
+  });
 
   if (postDatas.length === 0) {
     //데이터가 하나도 없을 시, []
