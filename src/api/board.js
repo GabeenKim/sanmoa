@@ -32,7 +32,7 @@ post.get('/:postId', async (req, res) => {
 
   const { postId } = req.params;
   const postDatas = await board.findOne({
-    attributes: ['id', 'title', 'content', 'postdate'],
+    attributes: ['id', 'content', 'title', 'userdatumId', 'postdate'],
     //id가 postId와 동일한 것 중 한 개만 읽어온다.
     where: {
       id: postId,
