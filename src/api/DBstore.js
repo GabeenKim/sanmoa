@@ -48,7 +48,7 @@ const mntFile = [
 
 app.get('/', async (res, req) => {
   fs.readFile(
-    'C:/Users/82103/Desktop/산/인왕산/PMNTN_인왕산_114100401.json',
+    'C:/Users/82103/Desktop/산/청계산원터/PMNTN_청계산원터_116500804.json',
     'utf8',
     async (error, jsonFile) => {
       if (error) return console.log(error);
@@ -82,14 +82,14 @@ app.get('/', async (res, req) => {
           //   paths_y: result[0],
           // });
         }
-        // await mountaindata.create({
-        //   MNTN_NM: MNTN_NM,
-        //   MNTN_CODE: MNTN_CODE,
-        //   PMNTN_SN: PMNTN_SN,
-        //   PMNTN_NM: PMNTN_NM,
-        //   PMNTN_DFFL: PMNTN_DFFL,
-        //   PMNTN_LT: PMNTN_LT,
-        // });
+        await mountaindata.create({
+          MNTN_NM: MNTN_NM,
+          MNTN_CODE: MNTN_CODE,
+          PMNTN_SN: PMNTN_SN,
+          PMNTN_NM: PMNTN_NM,
+          PMNTN_DFFL: PMNTN_DFFL,
+          PMNTN_LT: PMNTN_LT,
+        });
       }
       console.log('꿑');
     }
